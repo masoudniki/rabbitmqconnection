@@ -1,0 +1,17 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"       # AMQP
+      - "15672:15672"     # Management UI
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/conf.d/10-defaults.conf:ro
+      - ./rabbitmq/advanced.conf:/etc/rabbitmq/advanced.conf
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_ADVANCED_CONFIG_FILE: /etc/rabbitmq/advanced.conf
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
